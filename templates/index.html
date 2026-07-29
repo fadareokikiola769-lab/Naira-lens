@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NairaLens — AI Cryptocurrency Market Analysis</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
 
+<div class="auth-shell">
+
+  <!-- Brand / signature panel -->
+  <aside class="auth-brand">
+    <div class="brand-mark">
+      <span class="dot"></span>
+      <span>NairaLens · AI Market Intelligence</span>
+    </div>
+
+    <div class="brand-hero">
+      <div class="brand-eyebrow">Price data + social sentiment, fused</div>
+      <h1>Read the market<br><em>and</em> the mood behind it.</h1>
+      <p>
+        Most charting tools show you candles and nothing else. NairaLens
+        merges live exchange data with sentiment extracted from social
+        and news text, then runs both through an LSTM/GRU forecasting
+        model built for the volatility of emerging markets.
+      </p>
+
+      <div class="pipeline" aria-hidden="true">
+        <div class="node"><i>①</i><label>Collect</label></div>
+        <div class="track"></div>
+        <div class="node"><i>②</i><label>Preprocess</label></div>
+        <div class="track"></div>
+        <div class="node"><i>③</i><label>Sentiment</label></div>
+        <div class="track"></div>
+        <div class="node"><i>④</i><label>Predict</label></div>
+        <div class="track"></div>
+        <div class="node"><i>⑤</i><label>Visualise</label></div>
+      </div>
+    </div>
+
+    <div class="brand-foot">
+      <div><b>LSTM · GRU</b><br>Prediction engine</div>
+      <div><b>VADER · RoBERTa</b><br>Sentiment engine</div>
+      <div><b>Binance · CoinGecko</b><br>Market data</div>
+    </div>
+  </aside>
+
+  <!-- Sign in form -->
+  <section class="auth-form-wrap">
+    <form class="auth-form" id="signinForm" autocomplete="off">
+      <div class="mobile-brand"><span class="dot"></span><span>NairaLens</span></div>
+
+      <h2>Welcome back</h2>
+      <p class="sub">Sign in to view your forecasts and sentiment feed.</p>
+
+      <div class="field" id="f-email">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="field" id="f-password">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sign in</button>
+      <div class="auth-toast" id="toast"></div>
+
+      <div class="divider">or</div>
+      <button type="button" class="btn btn-ghost" id="demoBtn">Continue with demo account</button>
+
+      <p class="auth-switch">New to NairaLens? <a href="signup.html">Create an account</a></p>
+
+      <div class="demo-note">
+        <b>About this build.</b> This interface talks to a Flask backend that
+        pulls live prices from CoinGecko, scores real crypto news with VADER,
+        and trains an LSTM/GRU forecast per Chapter 3. Make sure the API
+        server is running — see the README for setup.
+      </div>
+    </form>
+  </section>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  const toast = document.getElementById('toast');
+
+  document.getElementById('signinForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    NairaAuth.signIn({
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
+    }, toast);
+  });
+
+  document.getElementById('demoBtn').addEventListener('click', function(){
+    NairaAuth.useDemoAccount(toast);
+  });
+</script>
+</body>
+</html>
