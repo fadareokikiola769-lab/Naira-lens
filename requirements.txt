@@ -1,4 +1,8 @@
-# # Core web framework
+# Build tools - ADD THESE 2 LINES
+setuptools==69.5.1
+wheel==0.43.0
+
+# Core web framework
 Flask==2.3.3
 flask-cors==4.0.1
 Flask-SQLAlchemy==3.1.1
@@ -6,14 +10,11 @@ Werkzeug==2.3.7
 python-dotenv==1.0.1
 gunicorn==21.2.0
 
-# Data + ML - OLDER versions with pre-built wheels
+# Data + ML
 numpy==1.24.3
 pandas==2.0.3
 scikit-learn==1.3.2
 joblib==1.3.2
-
-# REMOVED tensorflow-cpu - It's 500MB+ and will crash free Render
-# If you MUST use it, we need to use a paid plan or remove ML parts
 
 # Data collection + NLP
 requests==2.32.3
