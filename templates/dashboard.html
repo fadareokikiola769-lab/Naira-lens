@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — NairaLens</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="brand-mark"><span class="dot"></span><span>NairaLens</span></div>
+
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l4-4 4 4 6-8 4 4"/></svg>
+      Forecast Dashboard
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Data Pipeline
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M8 12h8M12 8v8"/></svg>
+      Sentiment Feed
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M6 15l4-5 3 3 5-7"/></svg>
+      Model Evaluation
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.9 2.9l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.9-2.9l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.9-2.9l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.9 2.9l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+      Settings
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="user-chip">
+        <div class="avatar" id="avatarInit">·</div>
+        <div class="who">
+          <b id="userName">—</b>
+          <span id="userEmail">—</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost signout" id="signoutBtn">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <h1>Forecast dashboard</h1>
+        <div class="greet" id="greetLine">Welcome back.</div>
+      </div>
+      <div class="coin-select" id="coinSelect">
+        <button data-coin="BTC" class="active">BTC</button>
+        <button data-coin="ETH">ETH</button>
+        <button data-coin="SOL">SOL</button>
+        <button data-coin="BNB">BNB</button>
+      </div>
+    </div>
+
+    <div class="demo-note" id="statusBanner" style="display:none; margin-bottom:18px;"></div>
+
+    <!-- Pipeline status strip (Fig. 3.1 as a live status view) -->
+    <div class="pipeline-strip" id="pipelineStrip">
+      <div class="node live"><i>①</i><label>Collection</label></div>
+      <div class="link"></div>
+      <div class="node live"><i>②</i><label>Preprocessing</label></div>
+      <div class="link"></div>
+      <div class="node live"><i>③</i><label>Sentiment engine</label></div>
+      <div class="link"></div>
+      <div class="node live"><i>④</i><label>LSTM / GRU</label></div>
+      <div class="link"></div>
+      <div class="node live"><i>⑤</i><label>Dashboard</label></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="grid">
+      <!-- Left column -->
+      <div>
+        <div class="card">
+          <div class="card-head">
+            <h3 id="chartTitle">BTC · Price vs. forecast</h3>
+            <span class="badge-live">live simulation</span>
+          </div>
+          <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
+          <div class="legend-row">
+            <span><i style="background:#7C8CE0"></i>Historical price</span>
+            <span><i style="background:#14B87F"></i>LSTM+sentiment forecast</span>
+            <span><i style="background:#647389"></i>Baseline (price only)</span>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top:18px;">
+          <div class="card">
+            <div class="card-head"><h3>Aggregated sentiment</h3><span class="tag">Hourly mean</span></div>
+            <div class="chart-wrap small"><canvas id="sentimentChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Composite sentiment score</h3><span class="tag" id="coinTagSent">BTC</span></div>
+            <div class="sentiment-gauge">
+              <div class="gauge-num" id="gaugeNum">0.00</div>
+              <div class="gauge-bar"><div class="gauge-fill" id="gaugeFill"></div><div class="gauge-marker" id="gaugeMarker"></div></div>
+            </div>
+            <p class="field-note" style="margin-top:14px;">
+              Blended VADER (lexicon) and RoBERTa (transformer) polarity across the
+              last 24h of social &amp; news text, aggregated to an hourly mean per
+              Section 3.5.3.
+            </p>
+            <div class="model-list" style="margin-top:6px;">
+              <div class="model-row"><span class="name">VADER baseline</span><span class="metric" id="vaderScore">—</span></div>
+              <div class="model-row"><span class="name">RoBERTa (context-aware)</span><span class="metric" id="robertaScore">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="card">
+          <div class="card-head"><h3>Model evaluation</h3><span class="tag">Held-out test set</span></div>
+          <div class="model-list">
+            <div class="model-row"><span class="name">LSTM + sentiment</span><span class="metric" id="m-lstm-sent">—</span></div>
+            <div class="model-row"><span class="name">GRU + sentiment</span><span class="metric" id="m-gru-sent">—</span></div>
+            <div class="model-row"><span class="name">LSTM (price only)</span><span class="metric" id="m-lstm-base">—</span></div>
+          </div>
+          <p class="field-note" style="margin-top:12px;">RMSE reported in quote currency, lower is better. Computed per Section 3.6.</p>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <div class="card-head"><h3>Live sentiment feed</h3><span class="tag">Twitter/X · Reddit</span></div>
+          <div class="feed scrollbar-thin" id="feed"></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Recent forecast log</h2>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Timestamp</th><th>Coin</th><th>Model</th><th>Predicted</th><th>Actual</th><th>Error (MAPE)</th></tr>
+          </thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
