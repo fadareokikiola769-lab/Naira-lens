@@ -3,12 +3,12 @@ import random
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "naira-lens-demo-key" 
+app.secret_key = "naira-lens-demo-key"
 
+# HOME PAGE NOW REDIRECTS TO SIGNUP
 @app.route("/")
 def home():
-return redirect(url_for("signup"))
-    return render_template("index.html")
+    return redirect(url_for("signup"))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -27,12 +27,7 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    # This is your dashboard page
-    demo_data = {
-        "naira_rate": round(random.uniform(1500, 1650), 2),
-        "last_prediction": random.choice(["BUY", "SELL", "HOLD"]),
-        "confidence": round(random.uniform(70, 95), 2)
-    }
+    demo_data = {"naira_rate": 1580.50, "last_prediction": "BUY", "confidence": 87.3}
     return render_template("dashboard.html", data=demo_data)
 
 @app.route("/predict", methods=["POST"])
@@ -43,7 +38,9 @@ def predict():
         "confidence": round(random.uniform(65, 95), 2),
         "naira_rate": round(random.uniform(1500, 1650), 2),
         "sentiment": random.choice(["Positive", "Neutral", "Negative"]),
-        "message": "Demo mode",
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     return jsonify(prediction)
+
+if __name__ == "__main__":
+    app.run(debug=True)
