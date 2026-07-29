@@ -1,0 +1,28 @@
+# Core web framework
+Flask==3.0.3
+flask-cors==4.0.1
+Flask-SQLAlchemy==3.1.1
+Werkzeug==3.0.3
+python-dotenv==1.0.1
+
+# Data + ML (matches Section 3.4.1 of the chapter)
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.1
+joblib==1.4.2
+tensorflow-cpu==2.16.1
+
+# Data collection + NLP
+requests==2.32.3
+feedparser==6.0.11
+vaderSentiment==3.3.2
+
+# --- Optional: real RoBERTa transformer scoring ---------------------------
+# Only needed if you set USE_ROBERTA=true in .env. Uncomment and install
+# separately — these are large (~2GB with CUDA-free torch) so they're kept
+# out of the default install.
+# transformers==4.44.0
+# torch==2.4.0
+
+# MySQL driver (only needed if you switch DATABASE_URL to MySQL — see README)
+# PyMySQL==1.1.1
