@@ -1,13 +1,18 @@
+from flask import Flask, request, jsonify
 import random
 from datetime import datetime
+
+app = Flask(__name__) # THIS LINE WAS MISSING
+
+@app.route("/")
+def home():
+    return "Naira Lens API is Live! Go to /predict to test"
 
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
     
-    # This is DEMO MODE - No pandas needed
-    # It just returns realistic fake data
-    
+    # DEMO MODE - No pandas needed
     prediction = {
         "status": "success",
         "prediction": random.choice(["BUY", "SELL", "HOLD"]),
@@ -18,4 +23,7 @@ def predict():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     
-    return prediction
+    return jsonify(prediction)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
