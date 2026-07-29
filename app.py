@@ -1,14 +1,21 @@
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return render_template("index.html") # Your frontend will still show
+import random
+from datetime import datetime
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    return {"message": "ML is temporarily disabled. Full version coming in 1 hour", "status": "demo"}
-
-if __name__ == "__main__":
-    app.run()
+    data = request.get_json()
+    
+    # This is DEMO MODE - No pandas needed
+    # It just returns realistic fake data
+    
+    prediction = {
+        "status": "success",
+        "prediction": random.choice(["BUY", "SELL", "HOLD"]),
+        "confidence": round(random.uniform(65, 95), 2),
+        "naira_rate": round(random.uniform(1500, 1650), 2),
+        "sentiment": random.choice(["Positive", "Neutral", "Negative"]),
+        "message": "This is demo data. Connect real ML model later.",
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    return prediction
