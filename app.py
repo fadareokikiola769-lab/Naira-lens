@@ -7,7 +7,7 @@ app.secret_key = "naira-lens-demo-key"
 
 @app.route("/")
 def home():
-        return redirect(url_for("signup"))
+return redirect(url_for("signup"))
     return render_template("index.html")
 
 @app.route("/signup", methods=["GET", "POST"])
