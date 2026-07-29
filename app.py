@@ -1,28 +1,29 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import random
 from datetime import datetime
+import os
 
-app = Flask(__name__) # THIS LINE WAS MISSING
+app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Naira Lens API is Live! Go to /predict to test"
+    # This will load your index.html from templates folder
+    return render_template("index.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
     
-    # DEMO MODE - No pandas needed
+    # DEMO MODE - returns fake data
     prediction = {
         "status": "success",
         "prediction": random.choice(["BUY", "SELL", "HOLD"]),
         "confidence": round(random.uniform(65, 95), 2),
         "naira_rate": round(random.uniform(1500, 1650), 2),
         "sentiment": random.choice(["Positive", "Neutral", "Negative"]),
-        "message": "This is demo data. Connect real ML model later.",
+        "message": "Demo data - Real ML coming soon",
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
-    
     return jsonify(prediction)
 
 if __name__ == "__main__":
