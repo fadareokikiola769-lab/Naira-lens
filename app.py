@@ -4,7 +4,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "naira-lens-demo-key" 
-    print("NAIRA-LENS V2 DEPLOYED")
+
 @app.route("/")
 def home():
     return render_template("index.html")
